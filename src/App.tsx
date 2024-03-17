@@ -1,5 +1,9 @@
+import styled from 'styled-components';
+
+const Wrapper = styled.div``;
+
 function App() {
-  return <div>hello world</div>;
+  return <Wrapper>hello</Wrapper>;
 }
 
 export default App;
