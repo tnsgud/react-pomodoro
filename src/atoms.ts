@@ -12,7 +12,7 @@ const saveLocalStorage: AtomEffect<number> = ({ node, onSet, setSelf }) => {
 
 const timeAtom = atom({
   key: 'time',
-  default: 10,
+  default: 1500,
   effects: [saveLocalStorage],
 });
 
@@ -22,7 +22,7 @@ export const timeSelector = selector<number>({
   set: ({ set }, newValue) => {
     if (newValue === 0) {
       set(roundAtom, (prevRound) => prevRound + 1);
-      set(timeAtom, 10);
+      set(timeAtom, 1500);
       return;
     }
 

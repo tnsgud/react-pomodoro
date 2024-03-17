@@ -12,8 +12,13 @@ import {
   Title,
   Wrapper,
 } from './styles';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { timeSelector, roundAtom } from './atoms';
+
+const timeCardVariants = {
+  start: { scale: 0.8 },
+  end: { scale: 1.2 },
+};
 
 export default function App() {
   const timer = useRef<NodeJS.Timer | null>(null);
@@ -24,13 +29,22 @@ export default function App() {
   const second = `${Math.floor(time % 60)}`.padStart(2, '0');
 
   function tick() {
-    setTime((prevTime) => prevTime - 1);
+    setTime((prevTime) => {
+      const time = prevTime - 1;
+      if (time === 0) {
+        clearInterval(timer.current as NodeJS.Timer);
+        setIsPlaying((value) => !value);
+        return time;
+      }
+
+      return time;
+    });
   }
 
   function onButtonClick() {
     if (isPlaying) {
       clearInterval(timer.current as NodeJS.Timer);
-      setIsPlaying(!isPlaying);
+      setIsPlaying((value) => !value);
       return;
     }
 
@@ -53,7 +67,23 @@ export default function App() {
       <Title>Pomodoro</Title>
 
       <TimerWrapper>
-        <TimeCard>{minute}</TimeCard>:<TimeCard>{second}</TimeCard>
+        <TimeCard
+          key={minute}
+          variants={timeCardVariants}
+          initial='start'
+          animate='end'
+        >
+          {minute}
+        </TimeCard>
+        :
+        <TimeCard
+          key={second}
+          variants={timeCardVariants}
+          initial='start'
+          animate='end'
+        >
+          {second}
+        </TimeCard>
       </TimerWrapper>
 
       <ButtonWrapper onClick={onButtonClick}>

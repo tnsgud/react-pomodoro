@@ -22,7 +22,7 @@ export const TimerWrapper = styled.div`
   gap: 20px;
   font-size: 60px;
 `;
-export const TimeCard = styled.span`
+export const TimeCard = styled(motion.span)`
   background-color: #f2f2f2;
   color: tomato;
   font-weight: 900;
